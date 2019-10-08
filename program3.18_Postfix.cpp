@@ -1,5 +1,6 @@
 //3.6.2 postfix notation
 //3.18~19
+//stack¿« ∫Ø»≠ cout operator overiding
 #include <iostream>
 #include <memory>
 #include "stackTemplate.h"
@@ -88,6 +89,7 @@ Expression Postfix(Expression e)
 	cout << endl;
 }
 
+//e = postfix
 void Eval(Expression e){
 Stack<Token> stack;
 stack.Push('#');
@@ -101,9 +103,10 @@ for (Token x = NextToken(e); x != '#'; x = NextToken(e))
 
 void main()
 {
+	//infix > postfix > eval
 	index = 0;
 	Expression infix, postfix;
-	scanf("%s", infix);
+	scanf("%s", infix); //   ex)  "A*(B+C)*D#"
 	cout << infix << endl;
 	postfix = Postfix(infix);
 	Eval(postfix);

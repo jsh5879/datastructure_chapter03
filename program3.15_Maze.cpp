@@ -3,6 +3,7 @@
 // 3.16~17
 #include <iostream>
 #include <fstream>
+#include "stackTemplate.h"
 using namespace std;
 
 const int DefaultSize = 10000;
@@ -11,81 +12,6 @@ enum Boolean { FALSE, TRUE };
 struct items {
 	int x, y, dir;
 };
-
-
-template <class T>
-class Stack {
-
-public:
-	Stack(int MaxStackSize = DefaultSize);
-	Boolean IsFull();
-	void Add(const T& item);
-	Boolean IsEmpty();
-	T* Delete(T&);
-
-	void StackEmpty() { cout << "empty" << endl; };
-	void StackFull() { cout << "full" << endl; };
-	void Output();
-
-	template <class T>
-	friend ostream& operator<<(ostream& os, const Stack<T>& s);
-
-	template <class T>
-	friend ostream& operator<<(ostream& os, items& item);
-
-private:
-	int top; //current element index, begin with 0
-	T* stack;
-	int MaxSize;//capacity of the stack
-};
-
-template <class T>
-Stack<T>::Stack(int MaxStackSize) : MaxSize(MaxStackSize)
-{
-	stack = new T[MaxSize];
-	top = -1;
-}
-
-template <class T>
-inline Boolean  Stack<T>::IsFull()
-{
-	if (top == MaxSize - 1) return TRUE;
-	else return FALSE;
-}
-
-template <class T>
-inline Boolean  Stack<T>::IsEmpty()
-{
-	if (top == -1) return TRUE;
-	else return FALSE;
-}
-
-template <class T>
-void Stack<T>::Add(const T& x)
-// add x to the stack
-{
-	if (IsFull()) StackFull();
-	else stack[++top] = x;
-}
-
-template <class T>
-T* Stack<T>::Delete(T& x)
-// removes and return top element from stack
-{
-	if (IsEmpty()) { StackEmpty(); return 0; }
-	x = stack[top--];
-	return &x;
-}
-
-template <class T>
-ostream& operator<<(ostream& os, const Stack<T>& s)
-{
-	os << "top = " << s.top << endl;
-	os << "stack elements: from the bottom to the top: " << endl;
-	for (int i = 0; i <= s.top; i++)
-		os << i << ":" << s.stack[i] << endl;
-	return os;
-}
 
 ostream& operator<<(ostream& os, items& item)
 {
@@ -141,8 +67,10 @@ void path(int m, int p)
 	}
 	cout << "no path in maze " << endl;
 }
-//circular queue를 사용한 버젼으로 수정
-
+/*
+maze[][], mark[][]를 class의 private data member로 선언
+main()에서는 class의 public function의 호출로 미로 찾기
+*/
 void main() {
 	int input[12][15] = {
 	{ 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1 },

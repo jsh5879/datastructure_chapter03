@@ -36,5 +36,13 @@
     <ClCompile Include="program3.18_Postfix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="stackTemplate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stackTemplate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

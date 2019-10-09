@@ -35,7 +35,7 @@ void path(int m, int p)
 	Stack<items> stack(m * p);
 	items temp;
 	temp.x = 1; temp.y = 1; temp.dir = E;
-	stack.Add(temp);
+	stack.Push(temp);
 
 	while (!stack.IsEmpty()) // stack not empty
 	{
@@ -59,7 +59,7 @@ void path(int m, int p)
 				//push the old temp to the stack, but the direction changes.
 				//Because the neighbor in the direction of d has been checked.
 				temp.x = i;  temp.y = j; temp.dir = d + 1;
-				stack.Add(temp); // stack it
+				stack.Push(temp); // stack it
 				i = g; j = h; d = N; // moves to (g,h)
 			}
 			else d++; // try next direction

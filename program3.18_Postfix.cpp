@@ -4,6 +4,8 @@
 #include <iostream>
 #include <memory>
 #include "stackTemplate.h"
+#include <stdio.h>
+
 typedef char* Expression;
 typedef char Token;
 using namespace std;
@@ -29,7 +31,7 @@ bool isOperand(char x)
 int isp(char a)
 {
 	if (a == '(')
-		return 0;
+		return 21;
 	else if (a == ')')
 		return 19;
 	else if (a == '+' || a == '-')
@@ -37,13 +39,13 @@ int isp(char a)
 	else if (a == '*' || a == '%' || a == '/')
 		return 13;
 	else
-		return 0;
+		return 22;
 }
 
 int icp(char a)
 {
 	if (a == '(')
-		return 20;
+		return 1;
 	else if (a == ')')
 		return 19;
 	else if (a == '+' || a == '-')
@@ -54,11 +56,11 @@ int icp(char a)
 		return 0;
 }
 
-Expression Postfix(Expression e)
+void Postfix(Expression e)
 {
 	Stack<char> stack;
 	stack.Push('#');
-	for (char x = NextToken(e); x != NULL; x = NextToken(e))
+	for (char x = NextToken(e); x != '#'; x = NextToken(e))
 	{
 		//cout << "x = " << x << endl;
 		if (isOperand(x))
@@ -72,43 +74,80 @@ Expression Postfix(Expression e)
 			}
 			stack.Pop();
 		}
+
 		else
-		{
+		{/*
 			for (; isp(stack.Top()) >= icp(x); stack.Pop())
 				cout << stack.Top();
+			stack.Push(x);*/
+			while (isp(stack.Top()) <= icp(x)) {
+				cout << stack.Top();
+				stack.Pop();
+			}
 			stack.Push(x);
 		}
 	}
-
-	char x;
-	while ((x = stack.Top()) != '#')
-	{
-		cout << x;
+	index = 0;
+	while (stack.Top() != '#') {
+		cout << stack.Top();
 		stack.Pop();
 	}
+	stack.Pop();
 	cout << endl;
 }
 
+double check(char x);
+
 //e = postfix
 void Eval(Expression e){
-Stack<Token> stack;
-stack.Push('#');
-for (Token x = NextToken(e); x != '#'; x = NextToken(e))
-	if (isOperand(x)) stack.Push(x);
-	else {
-		//remove the correct number of operands for operator x from stack;
-		//perform the operation x and store the result onto the stack;
+	Stack<Token> stack;
+	stack.Push('#');
+	for (Token x = NextToken(e); x != NULL; x = NextToken(e)) {
+		if (isOperand(x)) stack.Push(x);
+		else {
+			//remove the correct number of operands for operator x from stack;
+			//perform the operation x and store the result onto the stack;
+			char operand1, operand2, result;
+			operand1 = check(stack.Top());
+			stack.Pop();
+			operand2 = check(stack.Top());
+			stack.Pop();
+			if (x == '+') result = operand1 + operand2;
+			else if (x == '-') result = operand1 - operand2;
+			else if (x == '*') result = operand1 * operand2;
+			else if (x == '/') result = operand1 / operand2;
+			else result = 0;
+			stack.Push(result);
+			printf("%d/n", stack.Top());
+		}
 	}
 }
 
-void main()
+double check(char x) {
+	if (x == 'A') return 2;
+	else if (x == 'B') return 3;
+	else if (x == 'C') return 4;
+	else if (x == 'D') return 5;
+	else return 1;
+}
+
+int main()
 {
+	try{
 	//infix > postfix > eval
 	index = 0;
 	Expression infix, postfix;
+	infix = new char[10];
+	postfix = new char[10];
 	scanf("%s", infix); //   ex)  "A*(B+C)*D#"
-	cout << infix << endl;
-	postfix = Postfix(infix);
+	cout << "infix: " << infix << endl;
+	cout << "Postfix: ";
+	Postfix(infix);
+	scanf("%s", postfix);
 	Eval(postfix);
-	cout << postfix << endl;
+	}
+	catch (string m) {
+		cout << m << endl;
+	}
+	return 0;
 }

@@ -6,8 +6,8 @@
 #include "stackTemplate.h"
 using namespace std;
 
-const int DefaultSize = 10000;
-enum Boolean { FALSE, TRUE };
+//const int DefaultSize = 10000;
+//enum Boolean { FALSE, TRUE };
 
 struct items {
 	int x, y, dir;
@@ -39,7 +39,9 @@ void path(int m, int p)
 
 	while (!stack.IsEmpty()) // stack not empty
 	{
-		temp = *stack.Delete(temp); // unstack
+		//temp = *stack.Delete(temp); // unstack
+		temp = stack.Top();
+		stack.Pop();
 		int i = temp.x; int j = temp.y; int d = temp.dir;
 		while (d < 8) // moves forward
 		{
@@ -58,7 +60,7 @@ void path(int m, int p)
 				mark[g][h] = 1;
 				//push the old temp to the stack, but the direction changes.
 				//Because the neighbor in the direction of d has been checked.
-				temp.x = i;  temp.y = j; temp.dir = d + 1;
+				temp.x = i;  temp.y = j; temp.dir = d;
 				stack.Push(temp); // stack it
 				i = g; j = h; d = N; // moves to (g,h)
 			}

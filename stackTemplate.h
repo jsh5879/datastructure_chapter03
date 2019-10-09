@@ -16,7 +16,7 @@ public:
 	T& Top() const;
 	Boolean IsEmpty();
 	void Pop();
-	T* Delete(T&);
+	//T* Delete(T&);
 
 	void StackEmpty() { cout << "empty" << endl; };
 	void StackFull() { cout << "full" << endl; };
@@ -41,14 +41,6 @@ Stack<T>::Stack(int MaxStackSize) : MaxSize(MaxStackSize)
 	stack = new T[MaxSize];
 	top = -1;
 }
-
-template<class T>
-T* Stack<T>::Delete(T&)
-{
-	//????
-	return NULL;
-}
-
 
 template <class T>
 inline T& Stack<T>::Top() const
